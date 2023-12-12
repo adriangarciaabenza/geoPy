@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SAGA_METADATA>
+  <DATABASE></DATABASE>
+  <SOURCE>
+    <FILE>C:\Users\mmar\OneDrive - Agencia Estatal de Meteorología\Escritorio\PLANTILLA_SAGA\Hillshade_of_Mdt_Murcia.sgrd</FILE>
+    <DATABASE></DATABASE>
+    <PROJECTION></PROJECTION>
+  </SOURCE>
+  <HISTORY>
+    <MODULE>Analytical Hillshading</MODULE>
+    <OPTION type="choice" id="METHOD" name="Shading Method">0</OPTION>
+    <OPTION type="double" id="AZIMUTH" name="Azimuth [Degree]">315.000000</OPTION>
+    <OPTION type="double" id="DECLINATION" name="Declination [Degree]">45.000000</OPTION>
+    <OPTION type="double" id="EXAGGERATION" name="Exaggeration">4.000000</OPTION>
+    <OPTION type="grid_system" id="PARAMETERS_GRID_SYSTEM" name="Grid system">
+      <CELLSIZE>1000.000000</CELLSIZE>
+      <XMIN>550500.000000</XMIN>
+      <XMAX>709500.000000</XMAX>
+      <YMIN>4130500.000000</YMIN>
+      <YMAX>4299500.000000</YMAX>
+      <DATA type="grid" id="ELEVATION" name="Elevation">
+        <MODULE>GDAL: Import Raster</MODULE>
+        <OPTION type="file" id="FILE" name="File">D:\Gis_En_Crudo\mdt_murcia\dblbnd.adf</OPTION>D:\GIS_SAGA\Mapas_Mensuales\Mdt_Murcia.sgrd</DATA>
+    </OPTION>
+    <DATA type="grid" id="ELEVATION" name="Elevation">
+      <MODULE>GDAL: Import Raster</MODULE>
+      <OPTION type="file" id="FILE" name="File">D:\Gis_En_Crudo\mdt_murcia\dblbnd.adf</OPTION>D:\GIS_SAGA\Mapas_Mensuales\Mdt_Murcia.sgrd</DATA>
+  </HISTORY>
+  <FILE>C:\Users\AEMet\OneDrive - Agencia Estatal de Meteorología\AEMET-Murcia\SAGA\Plantilla_SAGA\Hillshade_of_Mdt_Murcia.sgrd</FILE>
+  <DESCRIPTION></DESCRIPTION>
+  <PROJECTION>
+    <OGC_WKT>PROJCS["WGS 72BE / UTM zone 30N",GEOGCS["WGS 72BE",DATUM["WGS_1972_Transit_Broadcast_Ephemeris",SPHEROID["WGS 72",6378135,298.26,AUTHORITY["EPSG","7043"]],TOWGS84[0,0,1.9,0,0,0.814,-0.38],AUTHORITY["EPSG","6324"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4324"]],PROJECTION["Transverse_Mercator"],PARAMETER["latitude_of_origin",0],PARAMETER["central_meridian",-3],PARAMETER["scale_factor",0.9996],PARAMETER["false_easting",500000],PARAMETER["false_northing",0],UNIT["metre",1,AUTHORITY["EPSG","9001"]],AXIS["Easting",EAST],AXIS["Northing",NORTH],AUTHORITY["EPSG","32430"]]</OGC_WKT>
+    <PROJ4>+proj=utm +zone=30 +ellps=WGS72 +towgs84=0,0,1.9,0,0,0.814,-0.38 +units=m +no_defs </PROJ4>
+    <EPSG>32430</EPSG>
+  </PROJECTION>
+</SAGA_METADATA>

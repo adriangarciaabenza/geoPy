@@ -1,0 +1,24 @@
+Campos incluidos:
+     Indicativo: Indicativo climatológico
+     ALTITUD: Altitud de la estación (metros)
+     C_X: Coordenada X (Huso 30)
+     C_Y: Coordenada Y (Huso 30)
+     LONGITUD: Longitud geográfica
+          (La última cifra indica la orientación: 1 para longitud E y 2 para W)
+     LATITUD: Latitud geográfica
+     PMES77: Precipitación total mensual
+
+Unidades y valores especiales:
+
+     Horas UTC (Tiempo Universal Coordinado)
+
+     Precipitaciones en décimas de milímetro, medidas de 07 a 07 (desde la 07 del día de la fecha hasta las 07 del día siguiente).
+	Valores especiales de precipitación:
+		-4: Precipitación acumulada
+		-3: Precipitación inapreciable (inferior a 1 décima)
+
+     Dirección del viento en decenas de grado
+	Valores especiales de dirección del viento:
+		99: Viento variable
+		88: Sin dato
+		 0: Viento en calma
