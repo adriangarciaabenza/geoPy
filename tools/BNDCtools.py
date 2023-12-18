@@ -7,18 +7,10 @@ import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 from cartopy.feature import NaturalEarthFeature
 from cartopy.io import srtm
-from shapely.geometry import Point, Polygon, mapping
+from shapely.geometry import Point, Polygon, mapping, MultiLineString
 from shapely.ops import nearest_points
 from datetime import datetime
 
-def linestring_to_polygon(fili_shps):
-    gdf = gpd.read_file(fili_shps) #LINESTRING
-    geom = [x for x in gdf.geometry]
-    all_coords = mapping(geom[0])['coordinates']
-    lats = [x[1] for x in all_coords]
-    lons = [x[0] for x in all_coords]
-    polyg = Polygon(zip(lons, lats))
-    return gpd.GeoDataFrame(index=[0], crs=gdf.crs, geometry=[polyg])
 
 class BNDCdataSet(gpd.GeoDataFrame):
     """
@@ -64,24 +56,27 @@ class BNDCdataSet(gpd.GeoDataFrame):
         # Create an instance of BNDCdataSet
         return cls(data=gdf, table_type=data_type, date=data_date)
     
-    def compute_distance_to_sea(self, coast_shapefile):
+    def compute_distance_to_sea(self):
         """
         Calculates distance to sea using ccrs.NaturalEarthFeature for each point
         and adds a new column with this info to the dataset
         """
-        #coastline_geo = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
-        #coastline_geo = coastline_geo[coastline_geo['name'] == 'Spain'].dissolve(by='name')
-        coastline_geo = linestring_to_polygon(coast_shapefile)
-        coastline_geo = coastline_geo.to_crs(self.crs)
-
-        # Calculate the distance to the coast for each point
-        self['distance_to_sea'] = self.apply(lambda row: row['geometry'].distance(coastline_geo['geometry']), axis=1)
-
-
-        print(coastline_geo)
-        print(self)
+        coastline_geo = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
+        coastline_geo = coastline_geo[coastline_geo['continent'].isin(['Europe'])].dissolve(by='continent')
         coastline_geo.plot()
         plt.show()
+        print(coastline_geo.crs)
+        coastline_geo = coastline_geo.to_crs(self.crs)
+        print(coastline_geo)
+
+        # Calculate the distance to the coast for each point
+        self['distance_to_sea'] = self.apply(lambda row: row['geometry'].distance(coastline_geo['geometry'].boundary)/1000.0, axis=1)
+
+        print(coastline_geo.crs)
+        print(coastline_geo)
+        print(self)
+        
+        
 
         
     def plot_data_points(self, color_by='ALTITUD', cmap='viridis', markersize=10, figsize=(10, 8)):
@@ -152,7 +147,6 @@ class BNDCdataSet(gpd.GeoDataFrame):
 if __name__ == "__main__":
     # Example Usage:
     csv_file_path = "./AppInput/Pcp072023.csv"
-    coast_shapefile ='./tools/assets/ne_10m_coastline/ne_10m_coastline.shp'
     bndc_dataset = BNDCdataSet.from_csv(csv_file_path)
 
     # Plotting data points colored by 'type'
@@ -161,6 +155,6 @@ if __name__ == "__main__":
     # Show the plot
     #plt.show()
 
-    bndc_dataset.compute_distance_to_sea(coast_shapefile=coast_shapefile)
+    bndc_dataset.compute_distance_to_sea()
     bndc_dataset.plot_data_points(color_by='distance_to_sea', cmap='viridis', markersize=10, figsize=(10, 8))
     plt.show()
