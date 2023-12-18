@@ -64,18 +64,18 @@ class BNDCdataSet(gpd.GeoDataFrame):
         # Create an instance of BNDCdataSet
         return cls(data=gdf, table_type=data_type, date=data_date)
     
-    def compute_distance_to_sea(self):
+    def compute_distance_to_sea(self, coast_shapefile):
         """
         Calculates distance to sea using ccrs.NaturalEarthFeature for each point
         and adds a new column with this info to the dataset
         """
         #coastline_geo = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
         #coastline_geo = coastline_geo[coastline_geo['name'] == 'Spain'].dissolve(by='name')
-        coastline_geo = linestring_to_polygon('./tools/assets/ne_10m_coastline/ne_10m_coastline.shp')
+        coastline_geo = linestring_to_polygon(coast_shapefile)
         coastline_geo = coastline_geo.to_crs(self.crs)
 
         # Calculate the distance to the coast for each point
-        self['distance_to_coast'] = self.apply(lambda row: row['geometry'].distance(coastline_geo['geometry']), axis=1)
+        self['distance_to_sea'] = self.apply(lambda row: row['geometry'].distance(coastline_geo['geometry']), axis=1)
 
 
         print(coastline_geo)
@@ -152,6 +152,7 @@ class BNDCdataSet(gpd.GeoDataFrame):
 if __name__ == "__main__":
     # Example Usage:
     csv_file_path = "./AppInput/Pcp072023.csv"
+    coast_shapefile ='./tools/assets/ne_10m_coastline/ne_10m_coastline.shp'
     bndc_dataset = BNDCdataSet.from_csv(csv_file_path)
 
     # Plotting data points colored by 'type'
@@ -160,6 +161,6 @@ if __name__ == "__main__":
     # Show the plot
     #plt.show()
 
-    bndc_dataset.compute_distance_to_sea()
-    bndc_dataset.plot_data_points(color_by='distance_to_coast', cmap='viridis', markersize=10, figsize=(10, 8))
+    bndc_dataset.compute_distance_to_sea(coast_shapefile=coast_shapefile)
+    bndc_dataset.plot_data_points(color_by='distance_to_sea', cmap='viridis', markersize=10, figsize=(10, 8))
     plt.show()
